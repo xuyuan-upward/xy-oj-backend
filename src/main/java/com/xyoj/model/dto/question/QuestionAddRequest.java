@@ -1,11 +1,8 @@
 package com.xyoj.model.dto.question;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,14 +33,14 @@ public class QuestionAddRequest implements Serializable {
      */
     private String answer;
     /**
-     * 判题用例
+     * 判题用例 输入 和对应的 输出
      */
-    private String judgeCase;
+    private List<JudgeCase> judgeCase;
 
     /**
      * 判题配置
      */
-    private String judgeConfig;
+    private JudgeConfig judgeConfig;
 
     private static final long serialVersionUID = 1L;
 }

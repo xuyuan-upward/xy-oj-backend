@@ -127,7 +127,6 @@ public class WxMpController {
         wxMenuButton3SubButton1.setName("编程学习");
         wxMenuButton3SubButton1.setUrl("https://yupi.icu");
         wxMenuButton3.setSubButtons(Collections.singletonList(wxMenuButton3SubButton1));
-
         // 设置主菜单
         wxMenu.setButtons(Arrays.asList(wxMenuButton1, wxMenuButton2, wxMenuButton3));
         wxMpService.getMenuService().menuCreate(wxMenu);

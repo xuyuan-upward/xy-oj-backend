@@ -39,23 +39,22 @@ public class QuestionSubmit implements Serializable {
     /**
      * 创建用户 Id
      */
-    private Integer userId;
+    private Long userId;
 
     /**
      * 题目 Id
      */
-    private Integer questionId;
+    private Long questionId;
 
     /**
      * 提交提交的状态
      */
     private Integer status;
-
     /**
      * 判题信息(判题得出的信息结果 eg：编译失败，超时等）
+     * 用json字符串存储到对应
      */
     private String judgeInfo;
-
     /**
      * 创建时间
      */

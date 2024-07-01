@@ -48,7 +48,7 @@ public class QuestionQueryRequest extends PageRequest implements Serializable {
     /**
      * 创建用户 Id
      */
-    private Integer userId;
+    private Long userId;
 
 
     private static final long serialVersionUID = 1L;

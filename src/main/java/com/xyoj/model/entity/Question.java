@@ -44,7 +44,7 @@ public class Question implements Serializable {
     /**
      * 创建用户 Id
      */
-    private Integer userId;
+    private Long userId;
 
     /**
      * 提交人数
