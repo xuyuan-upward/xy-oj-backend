@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xyoj.common.ErrorCode;
 import com.xyoj.constant.CommonConstant;
 import com.xyoj.exception.BusinessException;
-import com.xyoj.model.QuestionSubmitMapper;
+import com.xyoj.mapper.QuestionSubmitMapper;
 import com.xyoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.xyoj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.xyoj.model.entity.Question;
@@ -22,12 +22,9 @@ import com.xyoj.utils.SqlUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -45,9 +42,9 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Resource
     private UserService userService;
 
-    @Resource
-    @Lazy
-//    private JudgeService judgeService;
+//    @Resource
+//    @Lazy
+////    private JudgeService judgeService;
 
     /**
      * 提交题目
@@ -123,6 +120,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         return queryWrapper;
     }
 
+    /**
+     * 用于进行脱敏
+     * @param questionSubmit
+     * @param loginUser
+     * @return
+     */
     @Override
     public QuestionSubmitVO getQuestionSubmitVO(QuestionSubmit questionSubmit, User loginUser) {
         QuestionSubmitVO questionSubmitVO = QuestionSubmitVO.objToVo(questionSubmit);

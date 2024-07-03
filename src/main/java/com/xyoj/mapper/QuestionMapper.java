@@ -1,4 +1,4 @@
-package com.xyoj.model;
+package com.xyoj.mapper;
 
 import com.xyoj.model.entity.Question;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

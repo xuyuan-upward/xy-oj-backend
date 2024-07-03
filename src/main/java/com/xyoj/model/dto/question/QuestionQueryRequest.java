@@ -14,7 +14,6 @@ import java.util.List;
  * 查询请求
  *
  * @author xuyuan
- *  
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -49,7 +48,10 @@ public class QuestionQueryRequest extends PageRequest implements Serializable {
      * 创建用户 Id
      */
     private Long userId;
-
+    /**
+     * 创建用户的名称
+     */
+    private String userAccount;
 
     private static final long serialVersionUID = 1L;
 }

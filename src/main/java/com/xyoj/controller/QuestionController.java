@@ -206,7 +206,7 @@ public class QuestionController {
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
         Page<Question> questionPage = questionService.page(new Page<>(current, size),
-                questionService.getQueryWrapper(questionQueryRequest));
+        questionService.getQueryWrapper(questionQueryRequest));
         return ResultUtils.success(questionService.getQuestionVOPage(questionPage, request));
     }
 
@@ -235,7 +235,7 @@ public class QuestionController {
     }
 
     /**
-     * 分页获取题目列表（仅管理员）
+     * 根据条件 分页获取题目列表（仅管理员）
      *
      * @param questionQueryRequest
      * @param request
@@ -248,7 +248,7 @@ public class QuestionController {
         long current = questionQueryRequest.getCurrent();
         long size = questionQueryRequest.getPageSize();
         Page<Question> questionPage = questionService.page(new Page<>(current, size),
-                questionService.getQueryWrapper(questionQueryRequest));
+         questionService.getQueryWrapper(questionQueryRequest) ); // 参数二 代表按条件分页查询
         return ResultUtils.success(questionPage);
     }
 

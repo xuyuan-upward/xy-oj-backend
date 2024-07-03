@@ -13,7 +13,7 @@ import com.xyoj.model.entity.Question;
 import com.xyoj.model.vo.QuestionVO;
 import com.xyoj.model.vo.UserVO;
 import com.xyoj.service.QuestionService;
-import com.xyoj.model.QuestionMapper;
+import com.xyoj.mapper.QuestionMapper;
 import com.xyoj.service.UserService;
 import com.xyoj.utils.SqlUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -93,10 +93,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         String content = questionQueryRequest.getContent();
         List<String> tags = questionQueryRequest.getTags();
         String answer = questionQueryRequest.getAnswer();
-        Long userId = Long.valueOf(questionQueryRequest.getUserId());
+        Long userId = questionQueryRequest.getUserId();
         String sortField = questionQueryRequest.getSortField();
         String sortOrder = questionQueryRequest.getSortOrder();
-
         // 拼接查询条件
         queryWrapper.like(StringUtils.isNotBlank(title), "title", title);
         queryWrapper.like(StringUtils.isNotBlank(content), "content", content);
