@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,4 +25,9 @@ public class ExecuteCodeResponse {
      * 编译信息
      */
     private JudgeInfo judgeInfo;
+
+    /**
+     * 结果
+     */
+    private List<String> outputList;
 }

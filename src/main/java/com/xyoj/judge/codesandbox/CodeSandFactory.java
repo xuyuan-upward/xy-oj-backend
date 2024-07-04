@@ -5,7 +5,7 @@ import com.xyoj.judge.codesandbox.impl.RemoteCodeSandbox;
 import com.xyoj.judge.codesandbox.impl.ThirdCodeSandbox;
 
 /**
- * 静态工厂
+ * 静态工厂 用来根据字符串返回不同类型沙箱
  */
 public class CodeSandFactory {
 

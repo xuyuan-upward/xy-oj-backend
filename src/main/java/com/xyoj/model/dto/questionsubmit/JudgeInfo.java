@@ -19,4 +19,8 @@ public class JudgeInfo {
      * 消耗时间
      */
     private Long time;
+    /**
+     * 消耗栈时间
+     */
+    private Long stackTime;
 }
