@@ -1,7 +1,7 @@
 package com.xyoj.judge.strategy;
 
 import com.xyoj.model.dto.question.JudgeCase;
-import com.xyoj.model.dto.questionsubmit.JudgeInfo;
+import com.xyoj.judge.codesandbox.model.JudgeInfo;
 import com.xyoj.model.entity.Question;
 import com.xyoj.model.entity.QuestionSubmit;
 import lombok.Data;

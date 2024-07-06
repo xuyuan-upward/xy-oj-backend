@@ -22,7 +22,6 @@ public class CodeSandboxProxy implements CodeSandbox{
         // 用来获取代码沙箱类型，并执行对应的代码沙箱
         ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
         log.info("代码沙箱返回信息：",executeCodeResponse.toString());
-
-        return null;
+        return executeCodeResponse;
     }
 }

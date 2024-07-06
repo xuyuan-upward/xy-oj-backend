@@ -13,7 +13,8 @@ import java.util.List;
 /**
  * 默认判题策略 （扩展点：java实现判题策略，同时允许多种语言进行）
  */
-public class DefaultJudgeStrategy implements JudgeStrategy{
+public class JavaLanguageJudgeStrategy implements JudgeStrategy{
+    private final  static int JavaRunTime = 5;
     /**
      *
      * @param judgeContext
@@ -52,10 +53,13 @@ public class DefaultJudgeStrategy implements JudgeStrategy{
         // 判断编译范围有没有超时等等
         String judgeConfigStr = question.getJudgeConfig();
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
-        if ( time> judgeConfig.getTimeLimit()) {
+        // Java本身编译程序需要5s时间
+        if ( time - JavaRunTime > judgeConfig.getTimeLimit()) {
+            judgeInfoMessageEnum = JudgeInfoMessageEnum.TIME_LIMIT_EXCEEDED;
             judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
             return judgeInfoResponse;
         }  if (memory> judgeConfig.getMemoryLimit()) {
+            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
             judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
             return judgeInfoResponse;
         }

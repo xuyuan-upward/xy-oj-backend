@@ -8,11 +8,9 @@ import com.xyoj.judge.codesandbox.CodeSandbox;
 import com.xyoj.judge.codesandbox.CodeSandboxProxy;
 import com.xyoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.xyoj.judge.codesandbox.model.ExecuteCodeResponse;
-import com.xyoj.judge.strategy.DefaultJudgeStrategy;
 import com.xyoj.judge.strategy.JudgeContext;
-import com.xyoj.judge.strategy.JudgeStrategy;
 import com.xyoj.model.dto.question.JudgeCase;
-import com.xyoj.model.dto.questionsubmit.JudgeInfo;
+import com.xyoj.judge.codesandbox.model.JudgeInfo;
 import com.xyoj.model.entity.Question;
 import com.xyoj.model.entity.QuestionSubmit;
 import com.xyoj.model.enums.QuestionSubmitStatusEnum;
@@ -31,9 +29,10 @@ public class JudgeServiceImpl implements JudgeService {
     private QuestionSubmitService questionSubmitService;
     @Resource
     private QuestionService questionService;
-
     @Value("${codesandbox.type:example}")
     private String type;
+    @Resource
+    private JudgeManager judgeManager;
 
     @Override
     public QuestionSubmit doJudge(long questionSubmitId) {
@@ -69,16 +68,21 @@ public class JudgeServiceImpl implements JudgeService {
         // 获取所有输入用例
         List<String> inputList = judgeCaseList.stream().map(JudgeCase::getInput).collect(Collectors.toList());
         // 代码沙箱模块构建
-        // 1.创建沙箱实例
+        // 1.根据type创建沙箱实例
         CodeSandbox codeSandbox = CodeSandFactory.newInstance(type);
         // 2.执行代理模式
         codeSandbox = new CodeSandboxProxy(codeSandbox);
         // 构建代码执行请求类
-        ExecuteCodeRequest executeCodeRequest = new ExecuteCodeRequest();
-        executeCodeRequest.builder().code(code).language(language).input(inputList).build();
+        ExecuteCodeRequest executeCodeRequest = ExecuteCodeRequest
+                .builder()
+                .code(code)
+                .language(language)
+                .input(inputList).build();
+
         // 3.获取运行代码沙箱结果
         ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
-        // 根据沙箱的运行的结果，设置题目的判题状态和信息
+        // 4.根据沙箱的运行的结果，设置题目的判题状态和信息
+        // 创建对应判题需要的方法
         JudgeContext judgeContext = new JudgeContext();
         judgeContext.setJudgeInfo(executeCodeResponse.getJudgeInfo());
         judgeContext.setInputList(inputList);
@@ -86,21 +90,23 @@ public class JudgeServiceImpl implements JudgeService {
         judgeContext.setJudgeCaseList(judgeCaseList);
         judgeContext.setQuestion(question);
         judgeContext.setQuestionSubmit(questionSubmit);
-        JudgeStrategy judgeStrategy = new DefaultJudgeStrategy();
-        // 得到题目的判题状态
-        JudgeInfo judgeInfo = judgeStrategy.doJudgeInfo(judgeContext);
-        // 编译结束,更新提交题目信息
+        // 5.根据不同编程语言执行不同的判题机制
+        //  5.1得到题目的判题状态
+        JudgeInfo judgeInfo = judgeManager.doJudge(judgeContext);
+//        JudgeStrategy judgeStrategy = new DefaultJudgeStrategy();
+//        JudgeInfo judgeInfo = judgeStrategy.doJudgeInfo(judgeContext);
+        // 6.编译结束,更新提交题目信息
         QuestionSubmit updateQuestionSubmit = new QuestionSubmit();
         updateQuestionSubmit.setId(questionSubmitId);
-        // 转化为json字符串存放到数据库
+        //  6.1转化为json字符串存放到数据库
         updateQuestionSubmit.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
         updateQuestionSubmit.setStatus(QuestionSubmitStatusEnum.SUCCEED.getValue());
-        // 更新提交题目状态
+        //  6.2更新提交题目状态
         boolean updateFlag = questionSubmitService.updateById(updateQuestionSubmit);
         if (!updateFlag) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR);
         }
-        // 查找最新状态下的提交题目信息
+        // 7.查找最新状态下的提交题目信息 并返回
         QuestionSubmit questionSubmitResult = questionSubmitService.getById(questionId);
         return questionSubmitResult;
     }

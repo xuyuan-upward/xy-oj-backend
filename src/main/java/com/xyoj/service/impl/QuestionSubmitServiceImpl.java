@@ -25,19 +25,20 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
-* @author 李鱼皮
-* @description 针对表【question_submit(题目提交)】的数据库操作Service实现
-* @createDate 2023-08-07 20:58:53
-*/
+ * @author 李鱼皮
+ * @description 针对表【question_submit(题目提交)】的数据库操作Service实现
+ * @createDate 2023-08-07 20:58:53
+ */
 @Service
 public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper, QuestionSubmit>
-    implements QuestionSubmitService {
+        implements QuestionSubmitService {
 
     /**
      * 题目模块
@@ -91,12 +92,13 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         questionSubmit.setStatus(QuestionSubmitStatusEnum.WAITING.getValue());
         questionSubmit.setJudgeInfo("{}");
         boolean save = this.save(questionSubmit);
-        if (!save){
+        if (!save) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据插入失败");
         }
         Long questionSubmitId = questionSubmit.getId();
-        // 执行判题服务
+
         CompletableFuture.runAsync(() -> {
+            // 执行判题服务
             judgeService.doJudge(questionSubmitId);
         });
         return questionSubmitId;
@@ -134,6 +136,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     /**
      * 用于进行脱敏
+     *
      * @param questionSubmit
      * @param loginUser
      * @return
@@ -163,7 +166,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         questionSubmitVOPage.setRecords(questionSubmitVOList);
         return questionSubmitVOPage;
     }
-    
+
 }
 
 

@@ -1,4 +1,4 @@
-package com.xyoj.model.dto.questionsubmit;
+package com.xyoj.judge.codesandbox.model;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class JudgeInfo {
     /**
-     * 程序执行信息
+     * 程序执行结果信息
      */
     private String message;
     /**
